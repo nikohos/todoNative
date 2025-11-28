@@ -1,42 +1,44 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet } from 'react-native';
 
-interface Props {
+type Props = {
   onAdd: (text: string) => void;
-}
+};
 
 export default function TaskInput({ onAdd }: Props) {
-  const [text, setText] = useState<string>("");
-
-  const add = () => {
-    if (text.trim() === "") return;
-    onAdd(text);
-    setText("");
-  };
+  const [text, setText] = useState('');
 
   return (
-    <View style={styles.row}>
+    <View style={styles.container}>
       <TextInput
+        placeholder="Add new task"
         style={styles.input}
-        placeholder="New task..."
         value={text}
         onChangeText={setText}
       />
-      <Button title="Add" onPress={add} />
+      <Button
+        title="Add"
+        onPress={() => {
+          onAdd(text);
+          setText('');
+        }}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  row: {
+  container: {
     flexDirection: 'row',
-    marginBottom: 15,
+    gap: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10
   },
   input: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#999',
-    padding: 10,
-    marginRight: 10,
-  },
+    borderColor: '#aaa',
+    padding: 8,
+    borderRadius: 5
+  }
 });
